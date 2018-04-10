@@ -1,3 +1,67 @@
+# 수정 내역
+## 
+## 코드 해설 on [/missions/examples/kin/study](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/)
+* [main.py](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/main.py)
+  - from dataset import KinQueryDataset, preprocess
+  - argument들을 config에 할당.
+  - 변수 및 placeholder 설정.
+    - x = tf.placeholder(tf.float32, [None, hidden_layer_size])
+    - y = tf.placeholder(tf.float32, [None, output_size])
+    - w = tf.Variable(tf.random_normal([hidden_layer_size, output_size]), name="w")
+    - b = tf.Variable(tf.random_normal([output_size]), name="b")
+  - 변수 계산.
+    - hypothesis = tf.sigmoid(tf.matmul(x, w) + b)
+    - cost = -(y * tf.log(hypothesis) + (1 - y) * tf.log(1 - hypothesis))
+    - train = tf.train.AdamOptimizer(learning_rate).minimize(cost)
+    - prediction = tf.cast(hypothesis > 0.5, dtype=tf.float32)
+    - accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, y), dtype=tf.float32))
+  - mode 'train'
+    - 데이터를 불러와서 train.
+  - mode 'test_debug'
+    - 저장된 .ckpt와 데이터를 불러와서 test.
+  - mode 'test_local'
+    - for NSML
+* [dataset.py](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/dataset.py):
+  - from char_parser import vectorize_str
+  - class KinQueryDataset
+    - train_data 파일을 열어 f.readlines() 메소드를 preprocess()에 data 인수로 입력해 나온 출력을 self.queries에 할당.
+    - train_label 파일을 열고 (data_length, 1) shape np.array에 넣어 self.labels에 할당.
+  - preprocess(data: list, max_length: int, hidden_layer_size: int)
+    - splitBytab()으로 질문쌍을 두 질문 list로 분리
+    - vectorize_str()로 벡터화
+    - padding()으로 max_length까지 zero padding
+    - BasicLSTMCell(hidden_layer_size) 선언 후 dynamic_rnn()
+    - 두 질문의 dynamic_rnn() 출력 맨 마지막 값을 비교해 유사도 계산
+    - return (data_length, 1(유사도))) shape np.array.
+* [char_parser.py](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/char_parser.py)
+  - vectorize_chr(char)
+    - 문자 하나를 인수로 받아 한글(초성/중성/종성), 영어, 숫자, 특수문자에 따라 벡터화.
+    - return vector
+  - vectorize_str(str): 
+    - 문자열을 인수로 받아 vectorize_chr()에 문자 하나씩 입력.
+    - return (string_length, vector_size(default 6)) shape 리스트.
+* [setup.py](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/setup.py)
+  - NSML 라이브러리 setup
+* [/save](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/save/), [/save2](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/save2/)
+  - test_main.py에서 학습한 session을 저장한 .ckpt
+  - /save: learning_rate = 0.001
+  - /save2: learning_rate = 0.0001
+* [/test](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/test)
+  - test, debug, backup 파일들
+
+## 해결해야 할 것
+* 학습이 무의미
+  - tf.nn.dynamic_rnn()이 매번 다른 outputs를 출력 -> dataset이 매번 다르게 로딩됨.
+  - train 할 때 한 dataset에 너무 오버피팅.
+  - 따라서 학습된 session 불러와 똑같은 데이터에 test_debug해도 다르게 로딩된 dataset에는 재학습을 해야한다.
+
+
+
+
+<br><br>
+## --이하는 NAVER AI HACKATHON 공지사항--
+---
+
 ![banner](./res/NSMLHack_web_1000x260_G.jpg)
 
 # 공지사항

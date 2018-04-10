@@ -66,6 +66,7 @@ class KinQueryDataset:
 
 
 def preprocess(data: list, max_length: int):
+    # '가나', 4 => array([[ 0, 19,  0,  0], [ 2, 19,  0,  0]], dtype=int32)
     """
      입력을 받아서 딥러닝 모델이 학습 가능한 포맷으로 변경하는 함수입니다.
      기본 제공 알고리즘은 char2vec이며, 기본 모델이 MLP이기 때문에, 입력 값의 크기를 모두 고정한 벡터를 리턴합니다.
@@ -79,9 +80,21 @@ def preprocess(data: list, max_length: int):
     zero_padding = np.zeros((len(data), max_length), dtype=np.int32)
     for idx, seq in enumerate(vectorized_data):
         length = len(seq)
+        # print(length)
         if length >= max_length:
             length = max_length
             zero_padding[idx, :length] = np.array(seq)[:length]
         else:
             zero_padding[idx, :length] = np.array(seq)
     return zero_padding
+
+if __name__ == "__main__":
+    np.set_printoptions(threshold=np.inf)
+    dataset = KinQueryDataset('../sample_data/kin/', 200)
+
+    # print(dataset.queries)
+    # print(dataset.labels)
+
+    # print dataset.queries & labels
+    for i in range(len(dataset.queries)):
+        print([dataset.queries[i], dataset.labels[i]])

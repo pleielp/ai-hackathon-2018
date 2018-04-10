@@ -1,5 +1,4 @@
 # 수정 내역
-## 
 ## 코드 해설 on [/missions/examples/kin/study](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/)
 * [main.py](https://github.com/pleielp/ai-hackathon-2018/blob/master/missions/examples/kin/study/main.py)
   - from dataset import KinQueryDataset, preprocess
@@ -55,11 +54,24 @@
   - train 할 때 한 dataset에 너무 오버피팅.
   - 따라서 학습된 session 불러와 똑같은 데이터에 test_debug해도 다르게 로딩된 dataset에는 재학습을 해야한다.
 
+## 참고
+- [모두를 위한 딥러닝 강좌 시즌 1](https://www.youtube.com/watch?v=BS6O0zOGX4E&list=PLlMkM4tgfjnLSOjrEJN31gZATbcj_MpUm&index=1_)
+- [TensorFlow API](https://www.tensorflow.org/api_docs/python/tf)
+- [TensorFlow 한글 문서](https://tensorflowkorea.gitbooks.io/tensorflow-kr/content/)
 
+- [TF의 텐서와 상수, 변수, 플레이스홀더](https://tensorflow.blog/2017/05/10/tf%EC%9D%98-%ED%85%90%EC%84%9C%EC%99%80-%EC%83%81%EC%88%98-%EB%B3%80%EC%88%98-%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%ED%99%80%EB%8D%94/)
+- [RNN Tutorial Part 4 - GRU/LSTM RNN 구조를 Python과 Theano를 이용하여 구현하기](http://aikorea.org/blog/rnn-tutorial-4/)
+- [Gradient Descent Optimization Algorithms 정리](http://shuuki4.github.io/deep%20learning/2016/05/20/Gradient-Descent-Algorithm-Overview.html)
+- [word2vec_basic.py](https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/tutorials/word2vec/word2vec_basic.py)
+- [word2vec.py](https://github.com/tensorflow/models/blob/master/tutorials/embedding/word2vec.py)
+- [One-hot 인코딩 쉽게 하기](https://minjejeon.github.io/learningstock/2017/06/05/easy-one-hot-encoding.html)
+- [인공지능을 위한 선형대수](http://www.edwith.org/linearalgebra4ai/lecture/22720/)
 
+- [List of lists into numpy array](https://stackoverflow.com/questions/10346336/list-of-lists-into-numpy-array/26224619)
 
-<br><br>
-## --이하는 NAVER AI HACKATHON 공지사항--
+<br>
+
+### 이하는 NAVER AI HACKATHON 공지사항
 ---
 
 ![banner](./res/NSMLHack_web_1000x260_G.jpg)
